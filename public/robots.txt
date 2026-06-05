@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Block private / transactional pages from indexing
+Disallow: /admin
+Disallow: /checkout
+Disallow: /payment
+Disallow: /order-confirmation
+Disallow: /my-orders
+Disallow: /profile
+Disallow: /cart
+Disallow: /wishlist
+
+# Crawl-delay (be polite to search bots)
+Crawl-delay: 10
+
+# Sitemaps
+Sitemap: https://diamondjewels.com/sitemap.xml

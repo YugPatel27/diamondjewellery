@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2d07a" />
+      <stop offset="100%" stop-color="#b8860b" />
+    </linearGradient>
+  </defs>
+  <path d="M32 4 50 22v20L32 60 14 42V22z" fill="url(#gold)" stroke="#8a6a12" stroke-width="2" />
+  <path d="M32 4v56M14 22h36M14 42h36M20 14l24 36M44 14 20 50" fill="none" stroke="#fff7df" stroke-opacity=".55" stroke-width="1.5" />
+  <circle cx="32" cy="25" r="3.2" fill="#fff7df" />
+</svg>

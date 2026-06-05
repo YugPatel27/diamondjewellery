@@ -1,0 +1,29 @@
+{
+  "name": "Diamond Jewels",
+  "short_name": "DiamondJewels",
+  "description": "Premium fine jewellery and certified diamonds – engagement rings, wedding bands, necklaces and bespoke designs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#D49B17",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-GB",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "/diamond-favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "label": "Diamond Jewels Homepage"
+    }
+  ]
+}

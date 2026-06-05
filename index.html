@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── SEO: Fallback meta (overridden per-page by SEOHead) ─── -->
+  <meta name="description" content="Discover premium diamond engagement rings, wedding bands, necklaces, earrings, and bespoke jewellery. GIA & IGI certified stones. London boutique with lifetime care." />
+  <meta name="keywords" content="diamond rings, engagement rings, wedding rings, fine jewellery, certified diamonds, bespoke jewellery, London jewellery" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="theme-color" content="#D49B17" />
+
+  <!-- ── Open Graph fallback ─────────────────────────────────── -->
+  <meta property="og:title" content="Diamond Jewels — Luxury Diamond Rings &amp; Fine Jewellery" />
+  <meta property="og:description" content="Discover premium diamond engagement rings, wedding bands, necklaces, earrings, and bespoke jewellery. GIA &amp; IGI certified." />
+  <meta property="og:image" content="https://diamondjewels.com/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://diamondjewels.com" />
+  <meta property="og:site_name" content="Diamond Jewels" />
+  <meta property="og:locale" content="en_GB" />
+
+  <!-- ── Twitter Card fallback ───────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Diamond Jewels — Luxury Diamond Rings &amp; Fine Jewellery" />
+  <meta name="twitter:description" content="Premium diamond jewellery crafted for a lifetime. GIA certified rings, necklaces &amp; bespoke designs." />
+  <meta name="twitter:image" content="https://diamondjewels.com/og-image.jpg" />
+  <meta name="twitter:site" content="@diamondjewels" />
+
+  <!-- ── PWA / Mobile ───────────────────────────────────────── -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Diamond Jewels" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
+
+  <!-- ── Icons ─────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/diamond-favicon.svg" />
+  <link rel="apple-touch-icon" href="/diamond-favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- ── Resource Hints ────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+  <!-- ── Fonts (display=swap already set) ─────────────────── -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- ── Canonical ─────────────────────────────────────────── -->
+  <link rel="canonical" href="https://diamondjewels.com/" />
+
+  <title>Diamond Jewels — Luxury Diamond Rings &amp; Fine Jewellery</title>
+
+  <!-- ── Static JSON-LD (visible to crawlers before JS) ────── -->
+  <script type="application/ld+json" data-schema="ld-json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://diamondjewels.com/#website",
+        "name": "Diamond Jewels",
+        "url": "https://diamondjewels.com",
+        "description": "Premium fine jewellery and certified diamonds",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://diamondjewels.com/?search={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": ["Organization", "LocalBusiness", "JewelryStore"],
+        "@id": "https://diamondjewels.com/#organization",
+        "name": "Diamond Jewels",
+        "url": "https://diamondjewels.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://diamondjewels.com/logo.png",
+          "width": 512,
+          "height": 512
+        },
+        "image": "https://diamondjewels.com/og-image.jpg",
+        "description": "Premium fine jewellery and certified diamonds – engagement rings, wedding bands, necklaces and bespoke designs.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "123 Luxury Avenue, Jewel District",
+          "addressLocality": "London",
+          "postalCode": "W1A 1AA",
+          "addressCountry": "GB"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "email": "contact@diamondjewels.com",
+          "availableLanguage": ["English"]
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "10:00",
+            "closes": "20:00"
+          }
+        ],
+        "priceRange": "£££",
+        "sameAs": [
+          "https://www.instagram.com/diamondjewels",
+          "https://www.facebook.com/diamondjewels",
+          "https://twitter.com/diamondjewels"
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

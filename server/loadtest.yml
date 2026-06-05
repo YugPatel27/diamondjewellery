@@ -1,0 +1,13 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 20
+      arrivalRate: 10
+  defaults:
+    headers:
+      Accept: "application/json"
+scenarios:
+  - name: health-checks
+    flow:
+      - get:
+          url: "/api/health"
