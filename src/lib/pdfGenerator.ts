@@ -1,4 +1,3 @@
-import html2pdf from 'html2pdf.js';
 import { apiClient } from './api';
 
 interface OrderData {
@@ -60,7 +59,7 @@ const COMPANY_INFO = {
   accountHolder: 'DIAMOND JEWELS PVT LTD'
 };
 
-export const generateOrderPDF = (order: OrderData) => {
+export const generateOrderPDF = async (order: OrderData) => {
   const customizationTotal = order.items?.reduce((sum, item) => {
     const perUnit = item.customizationPrice || item.customization?.selectedDiamond?.price || 0;
     return sum + perUnit * item.quantity;
@@ -718,6 +717,9 @@ export const generateOrderPDF = (order: OrderData) => {
     pagebreak: { mode: ['css', 'legacy'] },
   };
 
+  // Dynamically import html2pdf only when needed to keep initial bundle small
+  const html2pdfModule = await import('html2pdf.js');
+  const html2pdf = (html2pdfModule && (html2pdfModule.default || html2pdfModule)) as any;
   html2pdf().set(opt).from(element).save();
 };
 

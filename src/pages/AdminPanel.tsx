@@ -1163,7 +1163,7 @@ const AdminPanel = () => {
 
                     <div className="border-t border-border pt-4 flex gap-2 flex-wrap">
                       <button 
-                        onClick={() => generateOrderPDF(selectedOrder)}
+                        onClick={async () => await generateOrderPDF(selectedOrder)}
                         className="flex-1 min-w-[120px] px-3 py-2 bg-primary/20 text-primary text-xs font-medium rounded hover:bg-primary/30"
                       >
                         <Download className="w-3 h-3 inline mr-2" />Download PDF
@@ -1310,7 +1310,7 @@ const AdminPanel = () => {
                           </td>
                           <td className="px-4 py-3 flex gap-1">
                             <button 
-                              onClick={() => generateOrderPDF(order)}
+                              onClick={async () => await generateOrderPDF(order)}
                               className="text-primary hover:text-primary/80 text-[10px] flex items-center gap-1"
                               title="Download PDF"
                             >

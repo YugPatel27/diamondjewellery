@@ -60,7 +60,7 @@ const InvoiceReceipt = ({ order }) => {
   const handleDownloadPDF = async () => {
     setDownloadingPDF(true);
     try {
-      generateOrderPDF(order);
+      await generateOrderPDF(order);
       toast.success('Invoice download started');
     } catch (error) {
       console.error('PDF generation error:', error);

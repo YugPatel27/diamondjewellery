@@ -249,7 +249,7 @@ const MyOrders = () => {
 
                           <div className="mt-auto pt-6">
                             <button
-                              onClick={() => generateOrderPDF(order)}
+                              onClick={async () => await generateOrderPDF(order)}
                               className="w-full flex items-center justify-center gap-3 py-4 bg-foreground text-background rounded-2xl text-xs font-bold tracking-widest uppercase hover:bg-accent transition-all duration-300 shadow-lg shadow-black/10 group-hover:scale-[1.02]"
                             >
                               <Download className="w-4 h-4" /> DOWNLOAD OFFICIAL PDF
