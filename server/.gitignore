@@ -14,3 +14,15 @@ build/
 .tmp/
 coverage/
 .nyc_output/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+__pycache__/
+
+# Packaging
+pip-wheel-metadata/
+
+# TypeScript cache
+*.tsbuildinfo

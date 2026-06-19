@@ -37,3 +37,51 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
+
+# Python virtual environments
+.venv/
+venv/
+env/
+__pycache__/
+
+# Python packaging
+pip-wheel-metadata/
+
+# Cache and build folders
+.cache/
+.parcel-cache/
+.turbo/
+.vite/
+.next/
+.out/
+.expo/
+dist/
+build/
+
+# Test and coverage
+coverage/
+.pytest_cache/
+.mypy_cache/
+.nyc_output/
+
+# Database files and local DB storage
+data/db/
+*.sqlite
+*.sqlite3
+*.db
+
+# Secrets, keys and certificates
+*.pem
+*.key
+*.crt
+*.p12
+credentials.json
+secrets.env
+local.settings.json
+
+# SSH configs
+.ssh/
+
+# Misc OS files
+Thumbs.db
+ehthumbs.db
