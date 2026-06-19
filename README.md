@@ -56,13 +56,8 @@ node server/index.js
 ## Environment files and secrets
 
 - This repository's `.gitignore` excludes `.env` and related files. Add any environment-specific files you need locally, e.g. `.env.local`, but never push them.
-- Example env variables (place in `.env` and `server/.env` as appropriate):
-
-```
-VITE_API_BASE_URL=http://localhost:3000/api
-NODE_ENV=development
-PORT=3000
-```
+- Example env variables (place in `.env` and `server/.env` as appropriate).
+- 
 
 ## Data and local databases
 
@@ -113,9 +108,9 @@ npm run format
 
 - Do not add any private keys, certificates, or passwords to the repository. Use environment variables and secrets management for production.
 
-## License
+## Preview
+<img width="1904" height="930" alt="Diamond E-Commerce Platform" src="https://github.com/user-attachments/assets/dc4f3131-a915-4efc-9467-11bffbc18537" />
 
-Specify your license here (e.g., MIT) or add a `LICENSE` file.
 
 ## Contact
 
