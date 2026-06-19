@@ -110,8 +110,3 @@ npm run format
 
 ## Preview
 <img width="1904" height="930" alt="Diamond E-Commerce Platform" src="https://github.com/user-attachments/assets/dc4f3131-a915-4efc-9467-11bffbc18537" />
-
-
-## Contact
-
-For questions about this project, open an issue or contact the repository maintainer.
