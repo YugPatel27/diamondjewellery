@@ -98,7 +98,6 @@ npm run format
 - `src/` — frontend source code
 - `public/` — static assets
 - `server/` — backend server code and scripts
-- `data/` — local data (ignored by Git)
 
 ## Contributing
 
