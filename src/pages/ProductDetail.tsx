@@ -51,38 +51,48 @@ const ProductDetail = () => {
   const { addLog } = useActivityLog();
   const { formatPrice } = useCurrency();
   const productRef = useRef<HTMLElement>(null);
+  const requestIdRef = useRef(0);
 
   // Fetch product and scroll to top
   useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      setSelectedImage(0);
-      setImageErrors({});
-      try {
-        if (!id) return;
+    const currentRequestId = ++requestIdRef.current;
+    setLoading(true);
+    setSelectedImage(0);
+    setImageErrors({});
+    setProduct(null);
+    setRecommendations([]);
 
-        try {
-          const response = await productAPI.getById(id);
-          if (response.success && response.product) {
-            setProduct(response.product);
-          } else {
-            setProduct(null);
-          }
-        } catch (apiError) {
-          console.error('API fetch failed:', apiError);
+    const isCurrentRequest = () => requestIdRef.current === currentRequestId;
+
+    const fetchProduct = async () => {
+      if (!id) {
+        if (isCurrentRequest()) setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await productAPI.getById(id);
+        if (!isCurrentRequest()) return;
+
+        if (response.success && response.product) {
+          setProduct(response.product);
+        } else {
           setProduct(null);
         }
-      } catch (err) {
-        console.error("Error fetching product:", err);
+      } catch (apiError) {
+        if (!isCurrentRequest()) return;
+        console.error('API fetch failed:', apiError);
         setProduct(null);
       } finally {
-        setLoading(false);
+        if (isCurrentRequest()) setLoading(false);
       }
     };
 
     const fetchRecommendations = async () => {
       try {
         const response = await productAPI.getAll();
+        if (!isCurrentRequest()) return;
+
         if (response.success && response.products) {
           const recs = response.products
             .filter((p: Product) => String(p.id) !== String(id))
@@ -90,13 +100,13 @@ const ProductDetail = () => {
           setRecommendations(recs);
         }
       } catch (err) {
+        if (!isCurrentRequest()) return;
         console.error("Failed to fetch recommendations", err);
       }
     };
 
     fetchProduct();
     fetchRecommendations();
-
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);

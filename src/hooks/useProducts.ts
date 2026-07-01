@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { productAPI } from '@/lib/api';
 import { sortProducts, filterProducts, defaultFilters, type Filters, type SortOption, type Product } from '@/data/products';
 
@@ -18,8 +18,11 @@ export const useProducts = (categoryFilter?: string) => {
     setRefreshTrigger(prev => prev + 1);
   }, []);
 
+  const requestIdRef = useRef(0);
+
   // Fetch products from API
   useEffect(() => {
+    const currentRequestId = ++requestIdRef.current;
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
@@ -44,21 +47,27 @@ export const useProducts = (categoryFilter?: string) => {
         const queryString = params.toString();
         try {
           const response = await productAPI.getAll(queryString ? `?${queryString}` : '');
+          if (requestIdRef.current !== currentRequestId) return;
           
           if (response.success && response.products) {
-            setProducts(response.products);
+            const uniqueProducts = Array.from(
+              new Map(response.products.map((p: Product) => [String(p.id ?? ''), p])).values()
+            );
+            setProducts(uniqueProducts);
           } else {
             setProducts([]);
           }
         } catch (apiError) {
+          if (requestIdRef.current !== currentRequestId) return;
           console.error('API fetch failed:', apiError);
           setProducts([]);
         }
       } catch (err) {
+        if (requestIdRef.current !== currentRequestId) return;
         console.error('Error fetching products:', err);
         setProducts([]);
       } finally {
-        setLoading(false);
+        if (requestIdRef.current === currentRequestId) setLoading(false);
       }
     };
 
