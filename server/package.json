@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node start-dev.js",
+    "dev": "node --watch server.js",
     "dev:watch": "node --watch server.js",
     "seed": "node seed.js",
     "init": "node init.js",

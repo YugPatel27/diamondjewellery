@@ -107,9 +107,9 @@ const AuthModal = () => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={closeAuth}>
-      <div className="bg-gradient-to-br from-card via-card to-secondary/10 border border-accent/20 w-[90%] max-w-md max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-gradient-to-br from-card via-card to-secondary/10 border border-accent/20 w-[95%] max-w-2xl max-h-[95vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between p-6 border-b border-accent/10 bg-gradient-to-r from-accent/5 to-transparent">
-          <h2 className="font-heading text-2xl font-light tracking-wide text-accent">{tab === "login" ? "Welcome Back" : "Create Account"}</h2>
+          <h2 className="font-heading text-3xl font-light tracking-wide text-accent">{tab === "login" ? "Welcome Back" : "Create Account"}</h2>
           <button onClick={() => { closeAuth(); resetForm(); }} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Close authentication dialog">
             <X className="w-5 h-5" />
           </button>
@@ -118,10 +118,10 @@ const AuthModal = () => {
         <div className="p-6 space-y-5">
           {/* Tab switcher */}
           <div className="grid grid-cols-2 gap-2 bg-secondary/30 p-1 rounded-lg">
-            <button onClick={() => setTab("login")} className={`py-3 text-sm font-medium tracking-wider uppercase rounded transition-all duration-300 ${tab === "login" ? "bg-gradient-to-r from-accent to-accent/80 text-accent-foreground shadow-lg shadow-accent/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}>
+            <button onClick={() => setTab("login")} className={`py-4 text-base font-medium tracking-wider uppercase rounded transition-all duration-300 ${tab === "login" ? "bg-gradient-to-r from-accent to-accent/80 text-accent-foreground shadow-lg shadow-accent/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}>
               Login
             </button>
-            <button onClick={() => setTab("register")} className={`py-3 text-sm font-medium tracking-wider uppercase rounded transition-all duration-300 ${tab === "register" ? "bg-gradient-to-r from-accent to-accent/80 text-accent-foreground shadow-lg shadow-accent/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}>
+            <button onClick={() => setTab("register")} className={`py-4 text-base font-medium tracking-wider uppercase rounded transition-all duration-300 ${tab === "register" ? "bg-gradient-to-r from-accent to-accent/80 text-accent-foreground shadow-lg shadow-accent/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}>
               Register
             </button>
           </div>
@@ -136,7 +136,7 @@ const AuthModal = () => {
                 value={form.name} 
                 onChange={(e) => update("name", e.target.value)}
                 disabled={loading}
-                className="w-full pl-12 pr-4 py-3.5 border border-accent/20 bg-secondary/30 text-sm outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
+                className="w-full pl-12 pr-4 py-4 border border-accent/20 bg-secondary/30 text-base outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
               />
             </div>
           )}
@@ -149,7 +149,7 @@ const AuthModal = () => {
               value={form.email} 
               onChange={(e) => update("email", e.target.value)}
               disabled={loading}
-              className="w-full pl-12 pr-4 py-3.5 border border-accent/20 bg-secondary/30 text-sm outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
+              className="w-full pl-12 pr-4 py-4 border border-accent/20 bg-secondary/30 text-base outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
             />
           </div>
 
@@ -162,7 +162,7 @@ const AuthModal = () => {
                 value={form.phone} 
                 onChange={(e) => update("phone", e.target.value)}
                 disabled={loading}
-                className="w-full pl-12 pr-4 py-3.5 border border-accent/20 bg-secondary/30 text-sm outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
+                className="w-full pl-12 pr-4 py-4 border border-accent/20 bg-secondary/30 text-base outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
               />
             </div>
           )}
@@ -175,7 +175,7 @@ const AuthModal = () => {
               value={form.password} 
               onChange={(e) => update("password", e.target.value)}
               disabled={loading}
-              className="w-full pl-12 pr-4 py-3.5 border border-accent/20 bg-secondary/30 text-sm outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
+              className="w-full pl-12 pr-4 py-4 border border-accent/20 bg-secondary/30 text-base outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
             />
           </div>
 
@@ -188,7 +188,7 @@ const AuthModal = () => {
                 value={form.confirmPassword} 
                 onChange={(e) => update("confirmPassword", e.target.value)}
                 disabled={loading}
-                className="w-full pl-12 pr-4 py-3.5 border border-accent/20 bg-secondary/30 text-sm outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
+                className="w-full pl-12 pr-4 py-4 border border-accent/20 bg-secondary/30 text-base outline-none focus:border-accent focus:bg-secondary/50 transition-all duration-300 rounded hover:border-accent/40 disabled:opacity-50" 
               />
             </div>
           )}
@@ -202,7 +202,7 @@ const AuthModal = () => {
               >
                 {consent && <CheckSquare className="w-4 h-4 text-accent-foreground" />}
               </div>
-              <span className="text-[11px] text-muted-foreground leading-relaxed">
+              <span className="text-sm text-muted-foreground leading-relaxed">
                 I consent to the collection and use of my personal data (name, email, phone number) for order processing, customer service, and account management as described in the{" "}
                 <span onClick={(e) => e.stopPropagation()} className="inline">
                   <Link to="/privacy-policy" className="text-accent underline" target="_blank">Privacy Policy</Link>
@@ -218,7 +218,7 @@ const AuthModal = () => {
           <button 
             onClick={tab === "login" ? handleLogin : handleRegister}
             disabled={loading}
-            className="w-full py-4 bg-gradient-to-r from-accent to-accent/80 text-accent-foreground text-sm font-semibold tracking-widest uppercase hover:shadow-lg hover:shadow-accent/40 transition-all duration-300 disabled:opacity-50 rounded-lg"
+            className="w-full py-5 bg-gradient-to-r from-accent to-accent/80 text-accent-foreground text-base font-semibold tracking-widest uppercase hover:shadow-lg hover:shadow-accent/40 transition-all duration-300 disabled:opacity-50 rounded-lg"
           >
             {loading ? "Please wait..." : (tab === "login" ? "Login" : "Create Account")}
           </button>
