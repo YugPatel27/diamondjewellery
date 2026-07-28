@@ -29,34 +29,40 @@ export const eraseUserData = async (userId) => {
   };
 
   try {
-    // 1. Delete all orders (or anonymize if legally required to retain)
-    const orderResult = await Order.deleteMany({ userId });
+    // Fetch likes first (needed to decrement product counts), and run all
+    // independent deletions concurrently instead of sequentially.
+    const [orderResult, cartResult, appointmentResult, logResult, likes] =
+      await Promise.all([
+        Order.deleteMany({ userId }),
+        Cart.findOneAndDelete({ userId }),
+        Appointment.deleteMany({ userId }),
+        ActivityLog.deleteMany({ userId }),
+        ProductLike.find({ userId }, 'productId').lean(),
+      ]);
+
     results.orders = orderResult.deletedCount;
-
-    // 2. Delete cart
-    const cartResult = await Cart.findOneAndDelete({ userId });
     results.cart = !!cartResult;
-
-    // 3. Delete appointments
-    const appointmentResult = await Appointment.deleteMany({ userId });
     results.appointments = appointmentResult.deletedCount;
-
-    // 4. Delete activity logs
-    const logResult = await ActivityLog.deleteMany({ userId });
     results.activityLogs = logResult.deletedCount;
 
-    // 5. Delete product likes and decrement like counts
-    const likes = await ProductLike.find({ userId });
-    for (const like of likes) {
-      await Product.findOneAndUpdate(
-        { id: like.productId },
-        { $inc: { likesCount: -1 } }
-      );
-    }
-    const likeResult = await ProductLike.deleteMany({ userId });
+    // Decrement product like counts and remove likes in parallel.
+    // bulkWrite replaces the previous N sequential findOneAndUpdate calls.
+    const [, likeResult] = await Promise.all([
+      likes.length
+        ? Product.bulkWrite(
+            likes.map(({ productId }) => ({
+              updateOne: {
+                filter: { id: productId },
+                update: { $inc: { likesCount: -1 } },
+              },
+            }))
+          )
+        : Promise.resolve(),
+      ProductLike.deleteMany({ userId }),
+    ]);
     results.likes = likeResult.deletedCount;
 
-    // 6. Delete user record
+    // Delete the user record last, once all related data is confirmed removed.
     const userResult = await User.findByIdAndDelete(userId);
     results.user = !!userResult;
 
@@ -72,36 +78,32 @@ export const eraseUserData = async (userId) => {
  */
 export const exportUserData = async (userId) => {
   try {
-    const user = await User.findById(userId).select('-password -__v').lean();
+    const [user, orders, cart, appointments, activityLogs, likes] =
+      await Promise.all([
+        User.findById(userId).select('-password -__v').lean(),
+        Order.find({ userId })
+          .select('-__v -paymentVerificationToken -pricingSnapshotHash -checkoutToken')
+          .lean(),
+        Cart.findOne({ userId }).select('-__v').lean(),
+        Appointment.find({ userId }).select('-__v').lean(),
+        ActivityLog.find({ userId })
+          .select('-__v')
+          .sort({ createdAt: -1 })
+          .limit(500)
+          .lean(),
+        ProductLike.find({ userId }).select('-__v').lean(),
+      ]);
+
     if (!user) return null;
-
-    const orders = await Order.find({ userId })
-      .select('-__v -paymentVerificationToken -pricingSnapshotHash -checkoutToken')
-      .lean();
-
-    const cart = await Cart.findOne({ userId }).select('-__v').lean();
-
-    const appointments = await Appointment.find({ userId }).select('-__v').lean();
-
-    const activityLogs = await ActivityLog.find({ userId })
-      .select('-__v')
-      .sort({ createdAt: -1 })
-      .limit(500)
-      .lean();
-
-    const likes = await ProductLike.find({ userId }).select('-__v').lean();
 
     return {
       exportDate: new Date().toISOString(),
       consentVersion: CONSENT_VERSION,
-      dataSubject: {
-        ...user,
-        _id: user._id.toString(),
-      },
-      orders: orders.map(o => ({ ...o, _id: o._id.toString() })),
+      dataSubject: { ...user, _id: user._id.toString() },
+      orders: orders.map((o) => ({ ...o, _id: o._id.toString() })),
       cart: cart ? { ...cart, _id: cart._id.toString() } : null,
-      appointments: appointments.map(a => ({ ...a, _id: a._id.toString() })),
-      activityLogs: activityLogs.map(l => ({
+      appointments: appointments.map((a) => ({ ...a, _id: a._id.toString() })),
+      activityLogs: activityLogs.map((l) => ({
         action: l.action,
         description: l.description,
         entityType: l.entityType,
@@ -109,7 +111,7 @@ export const exportUserData = async (userId) => {
         // IP is hashed, so safe to include
         ipFingerprint: l.ipAddress,
       })),
-      productLikes: likes.map(l => ({
+      productLikes: likes.map((l) => ({
         productId: l.productId,
         likedAt: l.likedAt,
       })),
@@ -121,11 +123,25 @@ export const exportUserData = async (userId) => {
 };
 
 /**
+ * Shared consent-field updater — used by recordConsent and withdrawConsent
+ * to avoid duplicating the findByIdAndUpdate/select/error-handling boilerplate.
+ */
+const updateUserFields = async (userId, update, errorLabel) => {
+  try {
+    return await User.findByIdAndUpdate(userId, { $set: update }, { new: true }).select('-password');
+  } catch (error) {
+    console.error(`${errorLabel} Error:`, error);
+    return null;
+  }
+};
+
+/**
  * Record user consent with version tracking
  */
-export const recordConsent = async (userId, consentData, ipAddress) => {
-  try {
-    const update = {
+export const recordConsent = (userId, consentData, ipAddress) =>
+  updateUserFields(
+    userId,
+    {
       'gdprConsent.consentGiven': true,
       'gdprConsent.consentDate': new Date(),
       'gdprConsent.consentVersion': CONSENT_VERSION,
@@ -133,32 +149,23 @@ export const recordConsent = async (userId, consentData, ipAddress) => {
       'gdprConsent.dataProcessing': consentData.dataProcessing ?? true,
       'gdprConsent.marketing': consentData.marketing ?? false,
       'gdprConsent.analytics': consentData.analytics ?? false,
-    };
-
-    return await User.findByIdAndUpdate(userId, { $set: update }, { new: true }).select('-password');
-  } catch (error) {
-    console.error('Consent Recording Error:', error);
-    return null;
-  }
-};
+    },
+    'Consent Recording'
+  );
 
 /**
  * Withdraw consent — disables marketing and optional processing
  */
-export const withdrawConsent = async (userId) => {
-  try {
-    const update = {
+export const withdrawConsent = (userId) =>
+  updateUserFields(
+    userId,
+    {
       'gdprConsent.marketing': false,
       'gdprConsent.analytics': false,
       'gdprConsent.consentWithdrawnAt': new Date(),
       'preferences.newsletter': false,
       'preferences.emailUpdates': false,
       'preferences.smsAlerts': false,
-    };
-
-    return await User.findByIdAndUpdate(userId, { $set: update }, { new: true }).select('-password');
-  } catch (error) {
-    console.error('Consent Withdrawal Error:', error);
-    return null;
-  }
-};
+    },
+    'Consent Withdrawal'
+  );
